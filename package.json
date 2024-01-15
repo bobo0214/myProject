@@ -8,7 +8,7 @@
     "dev-frontend": "ee-bin dev --serve=frontend",
     "dev-electron": "ee-bin dev --serve=electron",
     "dev-go": "ee-bin dev --serve=go",
-    "build-frontend": "ee-bin build --cmds=frontend && ee-bin move --flag=frontend_dist",
+    "build-frontend": "ee-bin build",
     "build-go-w": "ee-bin move --flag=go_static,go_config,go_package,go_images && ee-bin build --cmds=go_build_w",
     "build-go-m": "ee-bin move --flag=go_static,go_config,go_package,go_images && ee-bin build --cmds=go_build_m",
     "build-go-l": "ee-bin move --flag=go_static,go_config,go_package,go_images && ee-bin build --cmds=go_build_l",
@@ -62,6 +62,7 @@
     "dayjs": "^1.10.7",
     "ee-core": "^2.7.0",
     "electron-updater": "^5.3.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "vuedraggable": "^4.1.0"
   }
 }

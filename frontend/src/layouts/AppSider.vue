@@ -1,27 +1,27 @@
 <template>
-  <a-layout id="app-layout-sider">
-    <a-layout-sider
+  <a-layout id="app-layout-header">
+    <a-layout-header
       v-model="collapsed"
       theme="light"
-      class="layout-sider"
-      width="100"
+      class="layout-header"
     >
       <div class="logo">
-        <img class="pic-logo" src="~@/assets/logo.png">
+        <img class="pic-logo" src="~@/assets/frontpage.png">
+        <!-- <span class="logo-text"> 主页 </span> -->
       </div>
-      <a-menu 
-        class="menu-item" 
-        theme="light" 
-        mode="inline"
+      <a-menu
+        class="menu-item"
+        theme="dark"
+        mode="horizontal"
         :selectedKeys="[current]"
         @click="menuHandle"
       >
         <a-menu-item v-for="(menuInfo, index) in menu" :key="index">
-          <icon-font :type="menuInfo.icon" />
-          {{ menuInfo.title }} 
+          <!-- <icon-font :type="menuInfo.icon" /> -->
+          {{ menuInfo.title }}
         </a-menu-item>
       </a-menu>
-    </a-layout-sider>
+    </a-layout-header>
     <a-layout>
       <a-layout-content class="layout-content">
         <router-view />
@@ -39,37 +39,37 @@ export default {
       current: 'menu_1',
       menu: {
         'menu_1' : {
-          icon: 'icon-fengche',
-          title: '框架',
+          //icon: 'icon-fengche',
+          title: '网络服务器设置',
           pageName: 'Framework',
           params: {
             // test: 'hello'
           },
         },
         'menu_2' : {
-          icon: 'icon-niudan',
-          title: '系统',
+          //icon: 'icon-niudan',
+          title: '目标机配置',
           pageName: 'Os',
           params: {},
         },
         'menu_3' : {
-          icon: 'icon-xiangji',
-          title: '硬件',
+          //icon: 'icon-xiangji',
+          title: '动力学模型库配置',
           pageName: 'Hardware',
           params: {},
         },
         'menu_4' : {
-          icon: 'icon-liuxing',
-          title: '特效',
+          //icon: 'icon-liuxing',
+          title: 'GDB调试',
           pageName: 'Effect',
           params: {},
-        },   
+        },
         'menu_5' : {
-          icon: 'icon-gouwu',
-          title: 'cross',
+          //icon: 'icon-gouwu',
+          title: '仿真控制',
           pageName: 'Cross',
           params: {},
-        },          
+        },
       }
     };
   },
@@ -97,17 +97,29 @@ export default {
 </script>
 <style lang="less" scoped>
 // 嵌套
-#app-layout-sider {
+#app-layout-header {
   height: 100%;
   .logo {
-    border-bottom: 1px solid #e8e8e8;
+    // border-bottom: 1px solid #e8e8e8;
+    float: left;
+    width: 125px;
+    height: 40px;
+    margin: 16px 24px 16px 0;
   }
   .pic-logo {
-    height: 32px;
-    //background: rgba(139, 137, 137, 0.2);
-    margin: 10px;
+    height: 30px;
+    // background: rgba(139, 137, 137, 0.2);
+    //margin: 16px 24px 16px 0;
+    float: left;
+    margin:auto;
   }
-  .layout-sider {
+//   .logo-text{
+//     color:#fff;
+//     top: 50%;
+//     left: 50%;
+//     transform: translate(-50%, -50%);
+//   }
+  .layout-header {
     border-top: 1px solid #e8e8e8;
     border-right: 1px solid #e8e8e8;
   }
@@ -118,9 +130,6 @@ export default {
       margin-bottom: 0px;
       padding: 0 0px !important;
     }
-  }
-  .layout-content {
-    //background-color: #fff;
   }
 }
 </style>

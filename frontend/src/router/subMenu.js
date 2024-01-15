@@ -20,7 +20,7 @@ export default {
 			title: 'socket服务',
 			pageName: 'FrameworkSocketSocketServer',
 			params: {}
-		},    
+		},
 		'menu_103' : {
 			icon: 'profile',
 			title: 'json数据库',
@@ -38,19 +38,19 @@ export default {
 			title: '任务',
 			pageName: 'FrameworkJobsIndex',
 			params: {}
-		},				
+		},
 		'menu_106' : {
 			icon: 'profile',
 			title: '自动更新',
 			pageName: 'FrameworkUpdaterIndex',
 			params: {}
-		},    
+		},
 		'menu_107' : {
 			icon: 'profile',
 			title: '软件调用',
 			pageName: 'FrameworkSoftwareIndex',
 			params: {}
-		},		
+		},
     'menu_108' : {
 			icon: 'profile',
 			title: 'java',
@@ -62,65 +62,53 @@ export default {
 			title: '测试',
 			pageName: 'FrameworkTestApiIndex',
 			params: {}
-		},                                             
-	},	
+		},
+	},
   os: {
 		'menu_100' : {
 			icon: 'profile',
-			title: '文件',
-			pageName: 'OsFileIndex',
+			title: "指令核",
+			pageName: 'OsCoreIndex',
 			params: {}
 		},
 		'menu_101' : {
 			icon: 'profile',
-			title: '视图',
-			pageName: 'OsWindowViewIndex',
+			title: "片内设备集",
+			pageName: 'OsCoreIndex',
 			params: {}
 		},
 		'menu_102' : {
 			icon: 'profile',
-			title: '窗口',
-			pageName: 'OsWindowIndex',
+			title: "片外设备",
+			pageName: 'OsCoreIndex',
 			params: {}
 		},
 		'menu_103' : {
 			icon: 'profile',
-			title: '桌面通知',
-			pageName: 'OsNotificationIndex',
+			title: "虚拟网络端口",
+			pageName: 'OsCoreIndex',
 			params: {}
 		},
-		'menu_104' : {
-			icon: 'profile',
-			title: '电源监控',
-			pageName: 'OsPowerMonitorIndex',
-			params: {}
-		},
-		'menu_105' : {
-			icon: 'profile',
-			title: '屏幕信息',
-			pageName: 'OsScreenIndex',
-			params: {}
-		},
-		'menu_106' : {
-			icon: 'profile',
-			title: '系统主题',
-			pageName: 'OsThemeIndex',
-			params: {}
-		},
-		'menu_110' : {
-			icon: 'profile',
-			title: '图片',
-			pageName: 'OsFilePic',
-			params: {}
-		}, 
-	},  
+	},
 	hardware: {
-		'menu_100' : {
+        'menu_100' : {
       icon: 'profile',
-      title: '打印机',
+      title: 'Simulink',
       pageName: 'HardwarePrinterIndex',
       params: {}
-		}                                               
+		},
+        'menu_101' : {
+      icon: 'profile',
+      title: 'MWorks',
+      pageName: 'HardwarePrinterIndex',
+      params: {}
+		},
+        'menu_102' : {
+      icon: 'profile',
+      title: '虚拟网络端口',
+      pageName: 'HardwarePrinterIndex',
+      params: {}
+		}
   },
   effect: {
     'menu_100' : {
@@ -134,7 +122,7 @@ export default {
       title: '登录',
       pageName: 'EffectLoginIndex',
       params: {}
-    }                                                
+    }
   },
   cross: {
     'menu_100' : {
@@ -142,6 +130,6 @@ export default {
       title: 'go服务',
       pageName: 'CrossGoIndex',
       params: {}
-    }                                               
+    }
   },
 }

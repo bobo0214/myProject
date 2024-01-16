@@ -5,7 +5,7 @@
         style="float: left; width: 200px; height: 100%; margin-right: 10px"
       >
         <el-tag style="width: 100%; text-align: center" type="success"
-          >数据转换</el-tag
+          >设备列表</el-tag
         >
         <!-- <h5 style="color: blue"></h5> -->
         <el-menu
@@ -36,6 +36,7 @@
           </el-submenu>
         </el-menu>
       </el-card>
+
       <el-card style="width: calc(100% - 220px); height: 100%; float: right">
         <div style="width: 100%; height: 100%" ref="flowContainer">
           <super-flow
@@ -108,6 +109,7 @@
         <el-button type="primary" @click="settingSubmit"> 确 定 </el-button>
       </span>
     </el-dialog>
+
   </div>
 </template>
 
@@ -162,7 +164,12 @@ export default {
         name: "",
         desc: "",
       },
-
+      dialogForm: {
+        // dialog 的数据模型
+        name: "",
+        desc: "",
+      },
+      dialogNode: null,
       dragConf: {
         isDown: false,
         isMove: false,
@@ -175,100 +182,68 @@ export default {
       },
       parentList: [
         {
-          title: "输入",
+          title: "指令核",
           id: 1,
           nodeItemList: [
             {
-              label: "表输入",
+              label: "3803指令核",
               value: {
                 width: 120,
                 height: 40,
                 meta: {
-                  label: "表输入",
-                  name: "表输入",
-                },
-              },
-            },
-            {
-              label: "增量输入",
-              value: {
-                width: 120,
-                height: 40,
-                meta: {
-                  label: "增量输入",
-                  name: "增量输入",
-                },
-              },
-            },
-            {
-              label: "Excel输入",
-              value: {
-                width: 120,
-                height: 40,
-                meta: {
-                  label: "Excel输入",
-                  name: "Excel输入",
-                },
-              },
-            },
-            {
-              label: "文本文件输入",
-              value: {
-                width: 120,
-                height: 40,
-                meta: {
-                  label: "文本文件输入",
-                  name: "文本文件输入",
+                  label: "3803指令核",
+                  name: "3803指令核",
                 },
               },
             },
           ],
         },
         {
-          title: "转换",
+          title: "片内设备集",
           id: 2,
           nodeItemList: [
             {
-              label: "表输入",
+              label: "3803片内设备集",
               value: {
                 width: 120,
                 height: 40,
                 meta: {
-                  label: "表输入",
-                  name: "表输入",
+                  label: "3803片内设备集",
+                  name: "3803片内设备集",
                 },
               },
             },
+          ],
+        },
+        {
+          title: "片外设备",
+          id: 3,
+          nodeItemList: [
             {
-              label: "增量输入",
+              label: "RS422",
               value: {
                 width: 120,
                 height: 40,
                 meta: {
-                  label: "增量输入",
-                  name: "增量输入",
+                  label: "RS422",
+                  name: "RS422",
                 },
               },
             },
+          ],
+        },
+        {
+          title: "虚拟网络端口",
+          id: 4,
+          nodeItemList: [
             {
-              label: "Excel输入",
+              label: "DDS_Client",
               value: {
                 width: 120,
                 height: 40,
                 meta: {
-                  label: "Excel输入",
-                  name: "Excel输入",
-                },
-              },
-            },
-            {
-              label: "文本文件输入",
-              value: {
-                width: 120,
-                height: 40,
-                meta: {
-                  label: "文本文件输入",
-                  name: "文本文件输入",
+                  label: "DDS_Client",
+                  name: "DDS_Client",
                 },
               },
             },
@@ -276,72 +251,6 @@ export default {
         },
       ],
       graphMenu: [
-        [
-          {
-            // 选项 label
-            label: "节点1",
-            // 选项是否禁用
-            disable(graph) {
-              return !!graph.nodeList.find((node) => node.meta.label === "1");
-            },
-            // 选项选中后回调函数
-            selected(graph, coordinate) {
-              graph.addNode({
-                width: 120,
-                height: 40,
-                coordinate,
-                meta: {
-                  label: "1",
-                  name: "1",
-                },
-              });
-            },
-          },
-          {
-            label: "节点2",
-            selected(graph, coordinate) {
-              graph.addNode({
-                width: 120,
-                height: 40,
-                coordinate,
-                meta: {
-                  label: "2",
-                  name: "2",
-                },
-              });
-            },
-          },
-          {
-            label: "节点3",
-            selected(graph, coordinate) {
-              graph.addNode({
-                width: 120,
-                height: 40,
-                coordinate,
-                meta: {
-                  label: "3",
-                  name: "3",
-                },
-              });
-            },
-          },
-        ],
-        [
-          {
-            label: "节点4",
-            selected(graph, coordinate) {
-              graph.addNode({
-                width: 120,
-                height: 40,
-                coordinate,
-                meta: {
-                  label: "4",
-                  name: "4",
-                },
-              });
-            },
-          },
-        ],
         [
           {
             label: "全选",
@@ -528,9 +437,12 @@ export default {
 
       this.$el.appendChild(this.dragConf.ele);
     },
+
   },
+
 };
 </script>
+
 <style>
 html,
 body {

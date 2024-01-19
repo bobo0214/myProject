@@ -50,6 +50,7 @@
   "license": "Apache",
   "devDependencies": {
     "@electron/rebuild": "^3.2.13",
+    "babel-plugin-component": "^1.1.1",
     "debug": "^4.3.3",
     "ee-bin": "^1.4.0",
     "electron": "^21.4.4",
@@ -59,9 +60,11 @@
     "nodemon": "^2.0.16"
   },
   "dependencies": {
+    "@vue-flow/core": "^1.28.0",
     "dayjs": "^1.10.7",
     "ee-core": "^2.7.0",
     "electron-updater": "^5.3.0",
+    "element-ui": "^2.15.14",
     "lodash": "^4.17.21",
     "vuedraggable": "^4.1.0"
   }

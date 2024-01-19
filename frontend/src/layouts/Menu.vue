@@ -1,89 +1,190 @@
+<!-- 全局侧边栏 -->
 <template>
   <a-layout id="app-menu">
-    <a-layout-sider
-      theme="light"
-      class="layout-sider"
-    >
-      <a-menu
+    <a-layout-sider theme="light" class="layout-sider">
+      <!-- <a-menu
         theme="inline"
         mode="inline"
         :selectedKeys="[current]"
         @click="changeMenu">
-        <a-menu-item v-for="(menuInfo, subIndex) in menu" :key="subIndex">
-          <!-- <router-link :to="{ name: menuInfo.pageName, params: menuInfo.params}"> -->
+        <a-menu-item v-for="(menuInfo, subIndex) in menu" :key="subIndex"> 
+      <router-link :to="{ name: menuInfo.pageName, params: menuInfo.params}">
+       <span>{{ menuInfo.title }}</span> 
+       </router-link> 
+       </a-menu-item>
+      </a-menu> -->
+      <el-menu default-active="2" class="el-menu-vertical-demo">
+        <el-sub-menu
+          v-for="(menuInfo, subIndex) in menu"
+          :key="subIndex"
+          :index="menuInfo.id + ''"
+        >
+          <template #title>
             <span>{{ menuInfo.title }}</span>
-          <!-- </router-link> -->
-        </a-menu-item>
-      </a-menu>
+          </template>
+          <el-menu-item
+            v-for="(citem, cindex) in menuInfo.nodeItemList"
+            :key="cindex"
+          >
+            <i style="width: 20px; height: 20px" class="el-icon-document"></i>
+            <span @mousedown="(evt) => nodeItemMouseDown(evt, citem.value)">{{
+              citem.label
+            }}</span>
+          </el-menu-item>
+        </el-sub-menu>
+      </el-menu>
     </a-layout-sider>
     <a-layout>
       <a-layout-content>
-        <router-view />
+        <router-view id="NodesContainer" v-bind="{ nodesRef: newNode }" />
       </a-layout-content>
     </a-layout>
   </a-layout>
 </template>
-<script>
-// import { reactive } from 'vue';
-import subMenu from '@/router/subMenu';
+<script setup>
+import subMenu from "@/router/subMenu";
+import { ref, watch, onMounted } from "vue";
+import { useRouter } from "vue-router";
+const props = defineProps({
+  id: {
+    type: String,
+    default: "",
+  },
+});
 
-export default {
-  // setup() {
-  //   const state = reactive({
-  //     selectedKeys: ['menu_100'],
-  //   });
+const menu = ref({});
+const arrow = ref("el-icon-caret-right");
+const current = ref("menu_100");
+const keys = ref([]);
+const dragConf = ref({
+  isDown: false,
+  isMove: false,
+  offsetTop: 0,
+  offsetLeft: 0,
+  clientX: 0,
+  clientY: 0,
+  ele: null,
+  info: null,
+});
+const router = useRouter();
+const menuHandle = () => {
+  const id = props.id;
+  console.log("menu ------ id:", id);
+  menu.value = subMenu[id];
+  const linkInfo = menu.value[current.value];
+  console.log(linkInfo);
+  router.push({ name: linkInfo.pageName, params: linkInfo.params });
+  console.log(router);
+};
+const changeMenu = (e) => {
+  console.log("changeMenu e:", e);
+  current.value = e.key;
+};
+watch(
+  () => props.id,
+  () => {
+    console.log("watch id ----- ", props.id);
+    current.value = "menu_100";
+    menuHandle();
+  }
+);
+onMounted(() => {
+  menuHandle();
+  nodeId.value = 0;
+  document.addEventListener("mousemove", docMousemove);
+  document.addEventListener("mouseup", docMouseup);
+  //   $once("hook:beforeDestroy", () => {
+  //   document.removeEventListener("mousemove", this.docMousemove);
+  //   document.removeEventListener("mouseup", this.docMouseup);
+  // })
+});
+const newNode = ref({
+  id: 0,
+  label: "123",
+  position: {
+    x: 100,
+    y: 200,
+  },
+});
+const nodeId = ref(0);
+const equipName = ref("");
+const docMousemove = ({ clientX, clientY }) => {
+  const conf = dragConf.value;
 
-  //   const handleClick = e => {
-  //     state.selectedKeys = [e.key];
-  //   };
-
-  //   return {
-  //     state,
-  //     handleClick,
-  //   };
-  // },
-  props: {
-    id: {
-      type: String,
-      default: ''
-    }
-  },
-  data() {
-    return {
-      menu:{},
-      //selectedKeys: ['menu_100'],
-      current: 'menu_100',
-      keys: []
-    };
-  },
-  watch: {
-    id: function () {
-      console.log('watch id ----- ', this.id);
-      this.current = 'menu_100';
-      this.menuHandle();
-    },
-  },
-  created () {
-  },
-  mounted () {
-    this.menuHandle();
-  },
-  methods: {
-    menuHandle () {
-      // 该组件优先被加载了，所以没拿到参数
-      //console.log('params:', this.$route);
-
-      console.log('menu ------ id:', this.id);
-      this.menu = subMenu[this.id];
-      const linkInfo = this.menu[this.current];
-      this.$router.push({ name: linkInfo.pageName, params: linkInfo.params});
-    },
-    changeMenu(e) {
-      console.log('changeMenu e:', e);
-      this.current = e.key;
-    }
+  if (conf.isMove) {
+    dragConf.value.ele.style.top = clientY - conf.offsetTop + "px";
+    dragConf.value.ele.style.left = clientX - conf.offsetLeft + "px";
+  } else if (conf.isDown) {
+    // 鼠标移动量大于 5 时 移动状态生效
+    dragConf.value.isMove =
+      Math.abs(clientX - conf.clientX) > 5 ||
+      Math.abs(clientY - conf.clientY) > 5;
   }
 };
+const docMouseup = ({ clientX, clientY }) => {
+    const conf = dragConf.value;
+    dragConf.value.isDown = false;
+
+    if (conf.isMove) {
+      const { top, right, bottom, left } =
+        document.body.getBoundingClientRect();
+      // 判断鼠标是否进入 flow container
+      if (
+        clientX > left &&
+        clientX < right &&
+        clientY > top &&
+        clientY < bottom
+      ) {
+        // 获取拖动元素左上角相对 super flow 区域原点坐标
+        const rect = document
+          .getElementById("NodesContainer")
+          .getBoundingClientRect();
+        const mouseX = clientX - rect.left;
+        const mouseY = clientY - rect.top;
+
+        Object.assign(newNode.value, {
+          id: nodeId.value++,
+          label: conf.info.meta.name,
+          position: {
+            x: mouseX,
+            y: mouseY,
+          },
+          type: 'special',
+        });
+      }
+      console.log(newNode.value);
+      conf.isMove = false;
+    }
+
+    if (conf.ele) {
+      conf.ele.remove();
+      conf.ele = null;
+    }
+  },
+  nodeItemMouseDown = (evt, info) => {
+    const { clientX, clientY, currentTarget } = evt;
+
+    const { top, left } = evt.currentTarget.getBoundingClientRect();
+
+    const conf = dragConf.value;
+    const ele = currentTarget.cloneNode(true);
+
+    Object.assign(dragConf.value, {
+      offsetLeft: clientX - left,
+      offsetTop: clientY - top,
+      clientX: clientX,
+      clientY: clientY,
+      info,
+      ele,
+      isDown: true,
+    });
+
+    ele.style.position = "fixed";
+    ele.style.margin = "0";
+    ele.style.top = clientY - conf.offsetTop + "px";
+    ele.style.left = clientX - conf.offsetLeft + "px";
+    document.body.appendChild(dragConf.value.ele);
+  };
 </script>
 <style lang="less" scoped>
 #app-menu {
@@ -92,8 +193,11 @@ export default {
   .layout-sider {
     border-top: 1px solid #e8e8e8;
     border-right: 1px solid #e8e8e8;
-    background-color: #FAFAFA;
+    background-color: #fafafa;
     overflow: auto;
   }
+}
+#NodesContainer {
+  height: 100%;
 }
 </style>

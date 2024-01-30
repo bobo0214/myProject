@@ -7,13 +7,44 @@ import SuperFlow from "vue-super-flow";
 import "vue-super-flow/lib/index.css";
 import { onMounted, watch, ref, watchEffect } from "vue";
 import SpecialNode from "../../../components/SpecialNode.vue";
-import InteractionControls from './interActionTable.vue'
+import InteractionControls from "./interActionTable.vue";
+import SpecialEdge from "../../../components/SpecialEdge.vue";
 const props = defineProps({
   nodesRef: Object,
 });
 const isTableVisible = ref(false);
-const { nodes, addNodes, addEdges, onConnect, dimensions } = useVueFlow();
-onConnect((params) => addEdges(params));
+
+const {
+  nodes,
+  addNodes,
+  addEdges,
+  onConnect,
+  dimensions,
+  updateEdge,
+  onEdgeMouseEnter,
+  onEdgeMouseLeave,
+  getSelectedEdges,
+  getSelectedNodes,
+  removeEdges,
+  removeNodes,
+  onEdgeClick,
+  findEdge,
+  removeSelectedElements,
+} = useVueFlow();
+onConnect((params) => {
+  params.type = "special";
+  params.updatable = true;
+  params.data = {visable: false};
+  addEdges(params);
+});
+//改变指向
+function onEdgeUpdate({ edge, connection }) {
+  return updateEdge(edge, connection);
+}
+
+function onConnectEdge(params) {
+  return addEdges([params]);
+}
 
 watch(props.nodesRef, () => {
   addNodes([props.nodesRef]);
@@ -22,19 +53,58 @@ const ToggleTable = (value) => {
   isTableVisible.value = value;
 };
 
+const fileInput = ref(null);
+
+const openFileInput = () => {
+  fileInput.value.click();
+};
+
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    // 处理文件，例如上传或读取文件内容
+    console.log("Selected File:", file);
+  }
+  // 清空文件输入框，以便下次选择同一个文件触发change事件
+  fileInput.value.value = "";
+};
+onEdgeClick((params) => {
+  const edge = findEdge(params.edge.id);
+  edge.data.visable = !edge.data.visable;
+})
+
+
 </script>
 <template>
-  <div style="width: 100%; height: 100%; background-color:#fff">
-    <VueFlow class="interactionflow">
+  <div style="width: 100%; height: 100%; background-color: #fff">
+    <VueFlow
+      class="interactionflow"
+      @edge-update="onEdgeUpdate"
+      @connect="onConnectEdge"
+      
+    >
       <Background :variant="BackgroundVariant.Lines" />
       <template #node-special="specialNodeProps">
         <SpecialNode v-bind="specialNodeProps" @childClick="ToggleTable" />
       </template>
-      
-      <InteractionControls v-if="isTableVisible"></InteractionControls>
+      <template #edge-special="specialEdgeProps">
+        <SpecialEdge v-bind="specialEdgeProps"/>
+      </template>
+      <InteractionControls v-if="isTableVisible" @childClick="ToggleTable">
+      </InteractionControls>
       <div class="new-edit-button">
-        <el-button type="primary" size="small" round>新建目标机</el-button>
-        <el-button size="small" text><el-icon><EditPen /></el-icon>编辑</el-button>
+        <input
+          type="file"
+          ref="fileInput"
+          @change="handleFileChange"
+          style="display: none"
+        />
+        <el-button type="primary" size="small" @click="openFileInput" round
+          >新建目标机</el-button
+        >
+        <el-button size="small" text
+          ><el-icon><EditPen /></el-icon>编辑</el-button
+        >
       </div>
       <el-button type="primary" class="start">启动</el-button>
     </VueFlow>

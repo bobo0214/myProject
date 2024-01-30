@@ -171,6 +171,11 @@ const constantRouterMap = [
             path: '/cross/go/index',
             name: 'CrossGoIndex',
             component: () => import('@/views/cross/go/Index.vue')
+          },
+          {
+            path: '/cross/monitor/index',
+            name: 'CrossMonitorIndex',
+            component: () => import('@/views/cross/monitor/Index.vue')
           }
         ]
       },

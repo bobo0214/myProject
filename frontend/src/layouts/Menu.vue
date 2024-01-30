@@ -1,46 +1,4 @@
 <!-- 全局侧边栏 -->
-<template>
-  <a-layout id="app-menu">
-    <a-layout-sider theme="light" class="layout-sider">
-      <!-- <a-menu
-        theme="inline"
-        mode="inline"
-        :selectedKeys="[current]"
-        @click="changeMenu">
-        <a-menu-item v-for="(menuInfo, subIndex) in menu" :key="subIndex"> 
-      <router-link :to="{ name: menuInfo.pageName, params: menuInfo.params}">
-       <span>{{ menuInfo.title }}</span> 
-       </router-link> 
-       </a-menu-item>
-      </a-menu> -->
-      <el-menu default-active="2" class="el-menu-vertical-demo">
-        <el-sub-menu
-          v-for="(menuInfo, subIndex) in menu"
-          :key="subIndex"
-          :index="menuInfo.id + ''"
-        >
-          <template #title>
-            <span>{{ menuInfo.title }}</span>
-          </template>
-          <el-menu-item
-            v-for="(citem, cindex) in menuInfo.nodeItemList"
-            :key="cindex"
-          >
-            <i style="width: 20px; height: 20px" class="el-icon-document"></i>
-            <span @mousedown="(evt) => nodeItemMouseDown(evt, citem.value)">{{
-              citem.label
-            }}</span>
-          </el-menu-item>
-        </el-sub-menu>
-      </el-menu>
-    </a-layout-sider>
-    <a-layout>
-      <a-layout-content>
-        <router-view id="NodesContainer" v-bind="{ nodesRef: newNode }" />
-      </a-layout-content>
-    </a-layout>
-  </a-layout>
-</template>
 <script setup>
 import subMenu from "@/router/subMenu";
 import { ref, watch, onMounted } from "vue";
@@ -76,9 +34,9 @@ const menuHandle = () => {
   router.push({ name: linkInfo.pageName, params: linkInfo.params });
   console.log(router);
 };
-const changeMenu = (e) => {
-  console.log("changeMenu e:", e);
-  current.value = e.key;
+const changeMenu = (key, keypath) => {
+  current.value = key;
+  menuHandle();
 };
 watch(
   () => props.id,
@@ -149,7 +107,7 @@ const docMouseup = ({ clientX, clientY }) => {
             x: mouseX,
             y: mouseY,
           },
-          type: 'special',
+          type: "special",
         });
       }
       console.log(newNode.value);
@@ -180,12 +138,66 @@ const docMouseup = ({ clientX, clientY }) => {
     });
 
     ele.style.position = "fixed";
-    ele.style.margin = "0";
+    ele.style.textAlign = "center";
     ele.style.top = clientY - conf.offsetTop + "px";
     ele.style.left = clientX - conf.offsetLeft + "px";
     document.body.appendChild(dragConf.value.ele);
   };
 </script>
+<template>
+  <a-layout id="app-menu">
+    <a-layout-sider theme="light" class="layout-sider">
+      <!-- <a-menu
+        theme="inline"
+        mode="inline"
+        :selectedKeys="[current]"
+        @click="changeMenu">
+        <a-menu-item v-for="(menuInfo, subIndex) in menu" :key="subIndex"> 
+      <router-link :to="{ name: menuInfo.pageName, params: menuInfo.params}">
+       <span>{{ menuInfo.title }}</span> 
+       </router-link> 
+       </a-menu-item>
+      </a-menu> -->
+      <el-menu default-active="2" class="el-menu-vertical-demo" @open="changeMenu">
+        <el-menu-item v-if="id === 'os'">
+          <el-icon><setting /></el-icon>
+          <span>设备列表</span>
+        </el-menu-item>
+        <el-menu-item v-else-if="id === 'hardware'">
+          <el-icon><setting /></el-icon>
+          <span>动力学模型库列表</span>
+        </el-menu-item>
+        
+        <el-sub-menu
+          v-for="(menuInfo, subIndex) in menu"
+          :key="subIndex"
+          :index="menuInfo.id + ''"
+        >
+          <template #title>
+            <span>{{ menuInfo.title }}</span>
+          </template>
+          <el-menu-item
+            v-for="(citem, cindex) in menuInfo.nodeItemList"
+            :key="cindex"
+          >
+            <el-card
+              body-style="min-width: 120px; height: 40px; padding: 0px; line-height: 40px"
+              shadow="hover"
+              @mousedown="(evt) => nodeItemMouseDown(evt, citem.value)"
+              >{{ citem.label }}</el-card
+            >
+          </el-menu-item>
+        </el-sub-menu>
+      </el-menu>
+    </a-layout-sider>
+    <a-layout>
+      <a-layout-content>
+        <router-view id="NodesContainer" v-bind="{ nodesRef: newNode }" />
+      </a-layout-content>
+    </a-layout>
+  </a-layout>
+</template>
+
 <style lang="less" scoped>
 #app-menu {
   height: 100%;

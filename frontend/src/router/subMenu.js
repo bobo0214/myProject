@@ -152,6 +152,42 @@ export default {
       title: "Simulink",
       pageName: "HardwarePrinterIndex",
       params: {},
+      id: 1,
+      nodeItemList: [
+        {
+          label: "四轴飞行器模型",
+          value: {
+            width: 120,
+            height: 40,
+            meta: {
+              label: "四轴飞行器模型",
+              name: "四轴飞行器模型",
+            },
+          },
+        },
+        {
+          label: "四旋翼植物",
+          value: {
+            width: 120,
+            height: 40,
+            meta: {
+              label: "四旋翼植物",
+              name: "四旋翼植物",
+            },
+          },
+        },
+        {
+          label: "控制力矩陀螺模型",
+          value: {
+            width: 120,
+            height: 40,
+            meta: {
+              label: "控制力矩陀螺模型",
+              name: "控制力矩陀螺模型",
+            },
+          },
+        },
+      ],
     },
     menu_101: {
       icon: "profile",
@@ -182,8 +218,37 @@ export default {
   },
   cross: {
     menu_100: {
+      id: "menu_100",
       icon: "profile",
-      title: "go服务",
+      title: "遥控遥测",
+      pageName: "CrossGoIndex",
+      params: {},
+    },
+    menu_101: {
+      id: "menu_101",
+      icon: "profile",
+      title: "模型参数监控",
+      pageName: "CrossMonitorIndex",
+      params: {},
+    },
+    menu_102: {
+      id: "menu_102",
+      icon: "profile",
+      title: "节点数据处理",
+      pageName: "CrossGoIndex",
+      params: {},
+    },
+    menu_103: {
+      id: "menu_103",
+      icon: "profile",
+      title: "仿真控制",
+      pageName: "CrossGoIndex",
+      params: {},
+    },
+    menu_104: {
+      id: "menu_104",
+      icon: "profile",
+      title: "一键启动",
       pageName: "CrossGoIndex",
       params: {},
     },

@@ -1,5 +1,6 @@
 <script setup>
-import {ref} from "vue";
+import {ref, defineEmits} from "vue";
+const emit = defineEmits();
 //表格的编辑删除按钮操作
 const handleEdit = (index, row) => {
   row.editing = true; // 点击编辑时将 editing 设置为 true
@@ -26,9 +27,13 @@ const onAddItem = () => {
     role: "RW",
   });
 };
+const closeTable = () => {
+  emit("childClick", false);
+}
 </script>
 <template>
   <div class="elTableContainer">
+    <button class="table-close" @click="closeTable">x</button>
     <div style="color: #fff; font-size: 16px; font-weight: 400; text-align: left;">DDS客户端配置</div>
     <el-table :data="tableData" border width="380px">
       <el-table-column prop="topic" label="主题">
@@ -85,5 +90,20 @@ const onAddItem = () => {
   right: 100px;
   z-index: 99;
   background-color: #c5eafb;
+}
+.table-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  color: #fff;
+  line-height: 20px;
+  text-align: center;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+}
+.table-close:hover {
+  background-color: rgb(0, 0, 0, 0.3);
 }
 </style>

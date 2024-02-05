@@ -3,7 +3,7 @@
 import { Handle, Position, useVueFlow } from "@vue-flow/core";
 import { ref, onMounted, onUnmounted, computed, defineEmits } from "vue";
 import CustomHandle from "./CustomHandle.vue";
-const props = defineProps(["label", "id"]);
+const props = defineProps(["label", "id", "data"]);
 const emit = defineEmits();
 //点击元素后出现阴影的效果
 const isActive = ref(false);
@@ -72,7 +72,7 @@ const sourceHandleStyleA = {
 </script>
 <template>
   <div
-    class="node-item"
+    class="special-node-item"
     @click="toggleActive(this)"
     :class="{ active: isActive }"
     ref="clickableElement"
@@ -100,7 +100,7 @@ const sourceHandleStyleA = {
   </Handle>
 </template>
 <style>
-.node-item {
+.special-node-item {
   border: 1px solid;
   width: 120px;
   height: 60px;

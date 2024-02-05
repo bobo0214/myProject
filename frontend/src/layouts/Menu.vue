@@ -27,7 +27,6 @@ const dragConf = ref({
 const router = useRouter();
 const menuHandle = () => {
   const id = props.id;
-  console.log("menu ------ id:", id);
   menu.value = subMenu[id];
   const linkInfo = menu.value[current.value];
   console.log(linkInfo);
@@ -35,13 +34,14 @@ const menuHandle = () => {
   console.log(router);
 };
 const changeMenu = (key, keypath) => {
-  current.value = key;
-  menuHandle();
+  if (props.id === "cross") {
+    current.value = key;
+    menuHandle();
+  }
 };
 watch(
   () => props.id,
   () => {
-    console.log("watch id ----- ", props.id);
     current.value = "menu_100";
     menuHandle();
   }
@@ -101,13 +101,15 @@ const docMouseup = ({ clientX, clientY }) => {
         const mouseY = clientY - rect.top;
 
         Object.assign(newNode.value, {
-          id: nodeId.value++,
+          id: conf.info.meta.name + ":" +nodeId.value++,
           label: conf.info.meta.name,
+          accept: conf.info.meta.accept,
           position: {
             x: mouseX,
             y: mouseY,
           },
           type: "special",
+      
         });
       }
       console.log(newNode.value);
@@ -136,7 +138,6 @@ const docMouseup = ({ clientX, clientY }) => {
       ele,
       isDown: true,
     });
-
     ele.style.position = "fixed";
     ele.style.textAlign = "center";
     ele.style.top = clientY - conf.offsetTop + "px";
@@ -158,7 +159,11 @@ const docMouseup = ({ clientX, clientY }) => {
        </router-link> 
        </a-menu-item>
       </a-menu> -->
-      <el-menu default-active="2" class="el-menu-vertical-demo" @open="changeMenu">
+      <el-menu
+        default-active="2"
+        class="el-menu-vertical-demo"
+        @open="changeMenu"
+      >
         <el-menu-item v-if="id === 'os'">
           <el-icon><setting /></el-icon>
           <span>设备列表</span>
@@ -167,7 +172,7 @@ const docMouseup = ({ clientX, clientY }) => {
           <el-icon><setting /></el-icon>
           <span>动力学模型库列表</span>
         </el-menu-item>
-        
+
         <el-sub-menu
           v-for="(menuInfo, subIndex) in menu"
           :key="subIndex"

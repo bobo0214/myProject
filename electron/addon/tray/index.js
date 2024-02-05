@@ -1,4 +1,4 @@
-const { Tray, Menu } = require('electron');
+const { Tray, Menu, dialog } = require('electron');
 const path = require('path');
 const Ps = require('ee-core/ps');
 const Log = require('ee-core/log');
@@ -47,14 +47,31 @@ class TrayAddon {
         }
       }
     ]
-  
+    //点击关闭时的提示框
+    const options = {
+      type: 'question',
+      buttons: ['最小化到托盘', '直接退出'],
+      defaultId: 0,
+      title: '选择操作',
+      message: '请选择您要进行的操作',
+    }; 
     // 点击关闭，最小化到托盘
     mainWindow.on('close', (event) => {
       if (Electron.extra.closeWindow == true) {
         return;
       }
-      mainWindow.hide();
-      event.preventDefault();
+      dialog.showMessageBox(mainWindow, options).then((result) => {
+        if (result.response === 0) {
+          // 最小化到托盘
+          mainWindow.hide();
+          event.preventDefault();
+        } else {
+          // 直接退出
+          CoreApp.appQuit();
+        }
+      });
+      // mainWindow.hide();
+      
     });
     
     // 实例化托盘

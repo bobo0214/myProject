@@ -75,11 +75,10 @@ export default {
         {
           label: "3803指令核",
           value: {
-            width: 120,
-            height: 40,
             meta: {
               label: "3803指令核",
               name: "3803指令核",
+              accept: ["3803片内设备集"],
             },
           },
         },

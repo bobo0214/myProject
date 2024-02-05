@@ -13,7 +13,7 @@ const props = defineProps({
   nodesRef: Object,
 });
 const isTableVisible = ref(false);
-
+const alert = ref(false);
 const {
   nodes,
   addNodes,
@@ -29,21 +29,53 @@ const {
   removeNodes,
   onEdgeClick,
   findEdge,
+  findNode,
   removeSelectedElements,
 } = useVueFlow();
-onConnect((params) => {
-  params.type = "special";
-  params.updatable = true;
-  params.data = {visable: false};
-  addEdges(params);
-});
+// onConnect((params) => {
+//   const source = findNode(params.source);
+//   const target = findNode(params.target);
+//   if (source.accept !== undefined && !source.accept.includes(target.label)) {
+//     console.log(1)
+//     alert.value = true;
+//     removeEdges(params);
+//   } else {
+//     params.type = "special";
+//     params.updatable = true;
+//     params.data = { visable: false };
+//     addEdges(params);
+//   }
+// });
 //改变指向
 function onEdgeUpdate({ edge, connection }) {
-  return updateEdge(edge, connection);
+  const source = findNode(connection.source);
+  const target = findNode(connection.target);
+  console.log(source.data)
+  if (source.accept !== undefined && !source.accept.includes(target.label)) {
+    alert.value = true;
+    return;
+  } else {
+    alert.value = false;
+    return updateEdge(edge, connection);
+  }
+  
 }
 
+
 function onConnectEdge(params) {
-  return addEdges([params]);
+  const source = findNode(params.source);
+  const target = findNode(params.target);
+  console.log(source.data)
+  if (source.accept !== undefined && !source.accept.includes(target.label)) {
+    alert.value = true;
+    return;
+  } else {
+    alert.value = false;
+    params.type = "special";
+    params.updatable = true;
+    params.data = { visable: false };
+    return addEdges(params);
+  }
 }
 
 watch(props.nodesRef, () => {
@@ -68,12 +100,13 @@ const handleFileChange = (event) => {
   // 清空文件输入框，以便下次选择同一个文件触发change事件
   fileInput.value.value = "";
 };
+const alertClose = () => {
+  alert.value = false;
+};
 onEdgeClick((params) => {
   const edge = findEdge(params.edge.id);
   edge.data.visable = !edge.data.visable;
-})
-
-
+});
 </script>
 <template>
   <div style="width: 100%; height: 100%; background-color: #fff">
@@ -81,17 +114,31 @@ onEdgeClick((params) => {
       class="interactionflow"
       @edge-update="onEdgeUpdate"
       @connect="onConnectEdge"
-      
     >
       <Background :variant="BackgroundVariant.Lines" />
       <template #node-special="specialNodeProps">
         <SpecialNode v-bind="specialNodeProps" @childClick="ToggleTable" />
       </template>
       <template #edge-special="specialEdgeProps">
-        <SpecialEdge v-bind="specialEdgeProps"/>
+        <SpecialEdge v-bind="specialEdgeProps" />
       </template>
       <InteractionControls v-if="isTableVisible" @childClick="ToggleTable">
       </InteractionControls>
+      <el-alert
+        title="此设备不能相连"
+        v-if="alert"
+        type="warning"
+        center
+        show-icon
+        @close="alertClose"
+        style="
+          position: absolute;
+          width: 200px;
+          z-index: 100;
+          left: 50%;
+          transform: translateX(-50%);
+        "
+      />
       <div class="new-edit-button">
         <input
           type="file"
@@ -121,7 +168,7 @@ onEdgeClick((params) => {
   position: absolute;
   width: 100%;
   height: 30px;
-  z-index: 100;
+  z-index: 99;
   padding: 5px;
   display: flex;
   flex-direction: row;

@@ -39,7 +39,7 @@
     "build-lr-64": "electron-builder --config=./electron/config/builder.json -l=rpm --x64",
     "build-lp-64": "electron-builder --config=./electron/config/builder.json -l=pacman --x64",
     "test": "set DEBUG=* && electron . --env=local",
-    "pack": "electron-builder --dir", 
+    "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },
   "repository": "https://github.com/dromara/electron-egg.git",
@@ -49,19 +49,19 @@
     "ElectronEgg"
   ],
   "build": {
-    "appId": "com.example.ee",  
-    "productName": "ee",  
+    "appId": "com.example.ee",
+    "productName": "ee",
     "directories": {
-      "output": "D:/software/package"  
+      "output": "D:/software/package"
     },
     "files": [
       "**/*",
       "!node_modules/",
       "!frontend/node_modules"
     ],
-    "electronVersion": "21.4.4",  
+    "electronVersion": "21.4.4",
     "extraMetadata": {
-      "main": "main.js"  
+      "main": "main.js"
     }
   },
   "author": "哆啦好梦, Inc <530353222@qq.com>",
@@ -83,8 +83,10 @@
     "dayjs": "^1.10.7",
     "ee-core": "^2.7.0",
     "electron-updater": "^5.3.0",
-    "element-ui": "^2.15.14",
+    "element-plus": "^2.5.6",
     "lodash": "^4.17.21",
-    "vuedraggable": "^4.1.0"
+    "rticonnextdds-connector": "^1.2.2",
+    "vuedraggable": "^4.1.0",
+    "vuex": "^4.1.0"
   }
 }

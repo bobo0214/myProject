@@ -1,11 +1,13 @@
 <script setup>
 import {
   BezierEdge,
+  StepEdge,
   EdgeLabelRenderer,
   getBezierPath,
   useVueFlow,
 } from "@vue-flow/core";
 import { defineProps, computed, ref, onMounted } from "vue";
+import { useStore } from "vuex";
 // props were passed from the slot using `v-bind="customEdgeProps"`
 const props = defineProps([
   "id",
@@ -17,15 +19,18 @@ const props = defineProps([
   "targetPosition",
   "data",
 ]);
-
-const { removeEdges } = useVueFlow();
+const store = useStore();
 const path = computed(() => getBezierPath(props));
-
+const {removeEdges} = useVueFlow();
+const handleRemoveEdges = () => {
+  store.commit("removeEdge", props.id);
+  removeEdges(props.id);
+}
 
 </script>
 
 <template>
-  <BezierEdge
+  <StepEdge
     :source-x="sourceX"
     :source-y="sourceY"
     :target-x="targetX"
@@ -43,7 +48,7 @@ const path = computed(() => getBezierPath(props));
       }"
       v-if="data.visable"
     >
-      <button class="edgebutton" @click="removeEdges(id)" >×</button>
+      <button class="edgebutton" @click="handleRemoveEdges()" >×</button>
     </div>
   </EdgeLabelRenderer>
 </template>
@@ -67,4 +72,5 @@ const path = computed(() => getBezierPath(props));
 .edgebutton:hover {
   background-color: rgb(255, 69, 69);
 }
-</style>
+</style>,
+  useVueFlow

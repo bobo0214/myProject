@@ -44,7 +44,7 @@ watch(
   () => {
     current.value = "menu_100";
     menuHandle();
-  }
+  },
 );
 onMounted(() => {
   menuHandle();
@@ -101,15 +101,22 @@ const docMouseup = ({ clientX, clientY }) => {
         const mouseY = clientY - rect.top;
 
         Object.assign(newNode.value, {
-          id: conf.info.meta.name + ":" +nodeId.value++,
+          id: conf.info.meta.name + ":" + nodeId.value++,
           label: conf.info.meta.name,
           accept: conf.info.meta.accept,
+
           position: {
             x: mouseX,
             y: mouseY,
           },
           type: "special",
-      
+          data: {
+            style: {
+              width: (conf.info.width == undefined ? 120 : conf.info.width)+"px",
+              height: (conf.info.height == undefined ? 60 : conf.info.height)+"px",
+              backgroundColor: (conf.info.bacColor == undefined ? "#fff" : conf.info.bacColor)
+            },
+          },
         });
       }
       console.log(newNode.value);

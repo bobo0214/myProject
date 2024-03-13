@@ -75,6 +75,8 @@ export default {
         {
           label: "3803指令核",
           value: {
+            width: 120,
+            height: 60,
             meta: {
               label: "3803指令核",
               name: "3803指令核",
@@ -95,7 +97,7 @@ export default {
           label: "3803片内设备集",
           value: {
             width: 120,
-            height: 40,
+            height: 60,
             meta: {
               label: "3803片内设备集",
               name: "3803片内设备集",
@@ -115,10 +117,21 @@ export default {
           label: "RS422",
           value: {
             width: 120,
-            height: 40,
+            height: 60,
             meta: {
               label: "RS422",
               name: "RS422",
+            },
+          },
+        },
+        {
+          label: "1553B",
+          value: {
+            width: 120,
+            height: 60,
+            meta: {
+              label: "1553B",
+              name: "1553B",
             },
           },
         },
@@ -135,7 +148,7 @@ export default {
           label: "DDS_Client",
           value: {
             width: 120,
-            height: 40,
+            height: 60,
             meta: {
               label: "DDS_Client",
               name: "DDS_Client",
@@ -157,7 +170,7 @@ export default {
           label: "四轴飞行器模型",
           value: {
             width: 120,
-            height: 40,
+            height: 60,
             meta: {
               label: "四轴飞行器模型",
               name: "四轴飞行器模型",
@@ -168,7 +181,7 @@ export default {
           label: "四旋翼植物",
           value: {
             width: 120,
-            height: 40,
+            height: 60,
             meta: {
               label: "四旋翼植物",
               name: "四旋翼植物",
@@ -179,10 +192,58 @@ export default {
           label: "控制力矩陀螺模型",
           value: {
             width: 120,
-            height: 40,
+            height: 60,
             meta: {
               label: "控制力矩陀螺模型",
               name: "控制力矩陀螺模型",
+            },
+          },
+        },
+        {
+          label: "串口",
+          value: {
+            width: 80,
+            height: 80,
+            bacColor: "#DEC6BA",
+            meta: {
+              label: "串口",
+              name: "串口",
+            },
+          },
+        },
+        {
+          label: "AD",
+          value: {
+            width: 80,
+            height: 80,
+            bacColor:"#BCDBC1",
+            meta: {
+              label: "AD",
+              name: "AD",
+            },
+          },
+        },
+        {
+          label: "DA",
+          value: {
+            width: 80,
+            height: 80,
+            bacColor:"#B9C9E6",
+            meta: {
+              label: "DA",
+              name: "DA",
+            },
+          },
+        },
+        {
+          label: "1553B",
+          value: {
+            width: 80,
+            height: 40,
+            bacColor:"#D2B7E0",
+            meta: {
+              label: "1553B",
+              name: "1553B",
             },
           },
         },
@@ -241,7 +302,7 @@ export default {
       id: "menu_103",
       icon: "profile",
       title: "仿真控制",
-      pageName: "CrossGoIndex",
+      pageName: "CrossControlIndex",
       params: {},
     },
     menu_104: {

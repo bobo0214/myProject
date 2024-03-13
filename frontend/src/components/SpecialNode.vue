@@ -3,8 +3,10 @@
 import { Handle, Position, useVueFlow } from "@vue-flow/core";
 import { ref, onMounted, onUnmounted, computed, defineEmits } from "vue";
 import CustomHandle from "./CustomHandle.vue";
+import { useStore } from "vuex";
 const props = defineProps(["label", "id", "data"]);
 const emit = defineEmits();
+const store = useStore();
 //点击元素后出现阴影的效果
 const isActive = ref(false);
 const clickableElement = ref(null);
@@ -28,8 +30,12 @@ const handleClickOutside = () => {
 const { removeNodes } = useVueFlow();
 const removeNode = () => {
   removeNodes(props.id);
+  store.commit("removeNode", props.id);
 };
+const nodeStyle = ref({});
 onMounted(() => {
+  nodeStyle.value = props.data.style;
+  console.log(props.data.style);
   document.addEventListener("click", handleClickOutside);
 });
 
@@ -76,6 +82,7 @@ const sourceHandleStyleA = {
     @click="toggleActive(this)"
     :class="{ active: isActive }"
     ref="clickableElement"
+    :style="nodeStyle"
   >
   <div style="width: 60px;">{{ label }}</div>
     
@@ -102,8 +109,6 @@ const sourceHandleStyleA = {
 <style>
 .special-node-item {
   border: 1px solid;
-  width: 120px;
-  height: 60px;
   font-size: 12px;
   font-weight: 700;
   background: #ffffff;
@@ -162,4 +167,5 @@ const sourceHandleStyleA = {
   top: 0;
   right: 20;
 }
-</style>
+</style>import { Loading } from "element-plus/es/components/loading/src/service";
+

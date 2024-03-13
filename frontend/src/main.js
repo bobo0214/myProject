@@ -9,6 +9,7 @@ import Router from './router/index';
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import store from './store';
 const app = createApp(App)
 app.config.productionTip = false
 
@@ -29,5 +30,5 @@ for (const i in AntIcon) {
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
-
+app.use(store);
 app.use(Antd).use(Router).use(ElementPlus).mount('#app')

@@ -4,6 +4,7 @@ import { Handle, Position, useVueFlow } from "@vue-flow/core";
 import { ref, onMounted, onUnmounted, computed, defineEmits } from "vue";
 import { NodeResizer } from "@vue-flow/node-resizer";
 import "@vue-flow/node-resizer/dist/style.css";
+
 const props = defineProps(["label", "id"]);
 
 //点击元素后出现阴影的效果

@@ -9,48 +9,27 @@ import { onMounted, watch, ref, watchEffect } from "vue";
 import SpecialNode from "../../../components/SpecialNode.vue";
 import InteractionControls from "./interActionTable.vue";
 import SpecialEdge from "../../../components/SpecialEdge.vue";
+
 const props = defineProps({
   nodesRef: Object,
 });
 const isTableVisible = ref(false);
 const alert = ref(false);
 const {
-  nodes,
   addNodes,
   addEdges,
-  onConnect,
-  dimensions,
   updateEdge,
-  onEdgeMouseEnter,
-  onEdgeMouseLeave,
-  getSelectedEdges,
-  getSelectedNodes,
-  removeEdges,
-  removeNodes,
   onEdgeClick,
   findEdge,
   findNode,
-  removeSelectedElements,
+  nodes,
 } = useVueFlow();
-// onConnect((params) => {
-//   const source = findNode(params.source);
-//   const target = findNode(params.target);
-//   if (source.accept !== undefined && !source.accept.includes(target.label)) {
-//     console.log(1)
-//     alert.value = true;
-//     removeEdges(params);
-//   } else {
-//     params.type = "special";
-//     params.updatable = true;
-//     params.data = { visable: false };
-//     addEdges(params);
-//   }
-// });
+
 //改变指向
 function onEdgeUpdate({ edge, connection }) {
   const source = findNode(connection.source);
   const target = findNode(connection.target);
-  console.log(source.data)
+  console.log(source.data);
   if (source.accept !== undefined && !source.accept.includes(target.label)) {
     alert.value = true;
     return;
@@ -58,14 +37,11 @@ function onEdgeUpdate({ edge, connection }) {
     alert.value = false;
     return updateEdge(edge, connection);
   }
-  
 }
-
 
 function onConnectEdge(params) {
   const source = findNode(params.source);
   const target = findNode(params.target);
-  console.log(source.data)
   if (source.accept !== undefined && !source.accept.includes(target.label)) {
     alert.value = true;
     return;
@@ -74,12 +50,13 @@ function onConnectEdge(params) {
     params.type = "special";
     params.updatable = true;
     params.data = { visable: false };
+    console.log(source);
     return addEdges(params);
   }
 }
-
 watch(props.nodesRef, () => {
   addNodes([props.nodesRef]);
+  
 });
 const ToggleTable = (value) => {
   isTableVisible.value = value;
